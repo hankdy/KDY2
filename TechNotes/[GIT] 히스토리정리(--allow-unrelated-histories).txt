@@ -1,0 +1,4 @@
+[테크노트]
+
+# 원격 저장소와 로컬 저장소의 히스토리가 일치하지 않을 때 처리
+git pull origin main --allow-unrelated-histories
