@@ -1,0 +1,24 @@
+[우분투 원격 접속]
+
+(sudo vi /etc/gdm3/custom.conf)
+[daemon]
+WaylandEnable=false
+
+
+(sudo vi /etc/xrdp/startwm.sh)
+unset DBUS_SESSION_BUS_ADDRESS
+unset XDG_RUNTIME_DIR
+. $HOME/.profile
+
+# gnome-shell 대신 gnome-session을 Xorg 세션으로 시작
+dbus-launch --exit-with-session gnome-session
+
+sudo apt install dbus-x11
+dbus-launch
+
+(재시동)
+sudo reboot
+sudo systemctl start xrdp
+sudo systemctl restart xrdp
+sudo systemctl status xrdp
+sudo systemctl enable xrdp

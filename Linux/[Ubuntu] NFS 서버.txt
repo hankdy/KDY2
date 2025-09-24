@@ -1,0 +1,58 @@
+[NFS 서버]
+
+(bash)
+sudo -i
+apt update
+apt -y install nfs-kernel-server
+
+(NFS 서버 설정)
+vi /etc/exports
+/share *(rw,sync)
+
+/share : 공유 폴터
+*      : 접근 허용 호스트(전체)
+rw     : 읽기와 쓰기 허용
+sync   : 쓰기 후 디스크 동기화
+
+(공유 폴더 생성 및 설정)
+sudo -i
+mkdir /share
+chmod 777 /share
+
+(방화벽)
+ufw status   # 방화벽 상태 확인
+ufw enable   # 방화벽 활성화
+ufw disable  # 방화벽 비활성화
+
+(NFS 서버 시작)
+# 서버 재시작
+systemctl restart nfs-server 
+
+# 서버 활성화
+systemctl enable nfs-server
+
+# 방화벽 비활성화
+ufw disable  
+
+(Linux 클라이언트 설정)
+sudo apt update
+sudo apt -y install nfs-common
+
+# nfs 서버 ip
+showmount -e 192.168.111.100
+
+# NFS와 공유할 클라이언트 폴더
+mkdir ~/nfshare
+
+# 마운트(디스크 연결)
+sudo mount -t nfs 192.168.111.100:/share nfshare
+
+# 언마운트(디스크 연결 해제)
+sudo umount nfshare
+sudo umount ~/nfshare
+
+(Windows에서 설정)
+Windows 기능 켜기/끄기 - NFS용 서비스 - NFS용 클라이언트(체크)
+Windows 탐색기: 
+    - 드라이브: Z:
+    - 폴더: \\192.168.111.100\share

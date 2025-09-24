@@ -1,0 +1,21 @@
+[telnetd]
+
+/etc/xinetd.d/telnet
+service telnet
+{
+    disable = no
+    flags = REUSE
+    socket_type = stream
+    wait = no
+    user = root
+    server = /usr/sbin/telnetd
+    log_on_failure += USERID
+}
+
+systemctl daemon-reload
+systemctl restart xinetd
+systemctl enable xinetd
+systemctl status xinetd
+ufw allow 23/tcp
+
+telnet ip-addr

@@ -1,0 +1,3 @@
+[Ubuntu 명령어]
+
+sudo apt install open-vm-tools

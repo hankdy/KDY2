@@ -1,0 +1,8 @@
+[리눅스 툴 설치]
+
+# VMWare에서 우분투 화면 크기를 자동 조절
+sudo apt install open-vm-tools
+
+# 리눅스 필수 패키지
+sudo apt -y install net-tools gedit bzip2
+

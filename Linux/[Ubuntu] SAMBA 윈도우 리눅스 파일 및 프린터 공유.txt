@@ -1,0 +1,29 @@
+[SAMBA]
+
+(Windows)
+net user root userpass /add
+ipconfig
+ip : 192.168.53.70
+
+폴더 생성 및 공유 설정:
+    - C:\SMBShare
+    - Everyone: 읽기/쓰기
+    
+(Ubuntu)
+sudo apt -y instll net-tools
+sudo apt -y install samba-common smbclient cifs-utils
+
+sudo smbclient -L 192.168.53.70
+
+(mount)
+sudo mount -t cifs //윈도우주소/윈도폴더 리눅스폴더
+
+mkdir /mnt/smbshare
+sudo mount -t cifs //192.168.53.70/SMBShare /smbshare
+Password for root@//윈도우주소/윈도폴더: 윈도우(root)패스워드    
+
+(.profile)
+alias smbmount='sudo mount -t cifs //192.168.53.70/SMBShare /mnt/smbshare'
+alias smbumount='sudo 
+
+
