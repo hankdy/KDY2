@@ -1,0 +1,104 @@
+[아파치 웹 서버 - 볼륨]
+
+# 이미지 검색
+docker search --filter=is-official=true httpd
+
+############################################
+# 바인드 마운트
+# 호스트의 폴더를 컨테이너에 마운트
+############################################
+
+# 컨테이너 실행
+# -v : -v 호스트폴더:컨테이너폴더
+# -v : -v D:\XVolume:/usr/local/apache2/htdocs
+docker run --name httpdx -d -p 8090:80 -v D:\XVolume:/usr/local/apache2/htdocs httpd
+
+# 컨테이너 확인
+docker container ls -a
+docker ps -a
+
+# 웹브라우저
+http://localhost:8089
+http://localhost:8089/index.html
+
+# SHELL 모드로 진입
+docker exec -it httpdx /bin/bash
+
+# 폴더 이동
+/usr/local/apache2/htdocs
+
+# 컨테이너 중지
+docker container stop httpdx
+
+# 컨테이너 삭제
+docker container stop httpdx
+
+# 컨테이너 확인: 삭제된 컨테이너가 보이지 않음
+docker container ls -a
+
+############################################
+# 볼륨 마운트
+# 호스트의 폴더를 컨테이너에 마운트
+############################################
+
+# 볼륨 생성
+docker volume create httpd-vol
+
+# 볼륨 확인
+docker volume ls
+
+# 볼륨 상세 정보
+docker volume inspect httpd-vol
+
+# 컨테이너 실행
+docker run --name httpdv -d -p 8091:80 -v httpd-vol:/usr/local/apache2/htdocs httpd
+
+# 컨테이너 확인
+docker container ls -a
+
+# 웹브라우저
+http://localhost:8091
+
+# 호스트 파일을 컨테이너에 복사
+# 호스트 폴더: 복사할 파일이 있는 위치(cd로 이동)
+# 호스트 파일: index.html
+docker cp index.html httpdv:/usr/local/apache2/htdocs
+
+# 웹브라우저
+http://localhost:8091
+
+############################################
+# 동일한 볼륨을 공유하는 새로운 컨테이너 실행
+############################################
+docker run --name httpdx2 -d -p 8092:80 -v httpd-vol:/usr/local/apache2/htdocs httpd
+
+# 컨테이너 이름 변경
+# docker rename 기존이름 새로운이름
+docker rename httpdx2 httpdv2
+docker container rename httpdx2 httpdv2
+
+# 볼륨(httpd-vol)를 컨테이너 httpdv와 httpdv2가 같은 공유
+# 웹브라우저에 접속하면 동일한 결과를 확인할 수 있다.
+# 웹브라우저
+http://localhost:8092
+
+############################################
+# 볼륨 백업
+# busybox : tar 명령어를 포함한 백업 이미지
+############################################
+# docker run --rm : 컨테이너를 실행하고 종료 시 자동으로 busybox 컨테이너 제거
+# -v httpd-vol:/usr/local/apache2/htdocs : 백업할 볼륨:컨테이너 마운트 경로
+# -v D:\Temp\Backup:/target : 백업할 폴더:/target busybox 컨테이너의 마운트 경로
+# /usr/local/apache2/htdocs : 백업할 소스의 컨테이너 마운트 경로
+
+# 폴더 경로 포함
+docker run --rm -v httpd-vol:/usr/local/apache2/htdocs 
+    -v D:\Temp\Backup:/target 
+    busybox 
+    tar czvf /target/backup.tar.gz /usr/local/apache2/htdocs
+
+# -C : 백업 대상의 폴더 경로는 포함되지 않음
+docker run --rm -v httpd-vol:/usr/local/apache2/htdocs 
+    -v D:\Temp\Backup:/target 
+    busybox 
+    tar czvf /target/backup.tar.gz -C /usr/local/apache2/htdocs .

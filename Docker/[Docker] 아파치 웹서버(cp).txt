@@ -1,0 +1,50 @@
+[아파치 웹 서버]
+
+# 이미지 검색
+docker search --filter=is-official=true httpd
+
+############################################
+# 호스트 파일을 컨테이너에 복사
+############################################
+
+# 컨테이너 실행
+docker run --name apa000ex19 -d -p 8089:80 httpd
+
+# 컨테이너 확인
+docker container ls -a
+
+# 호스트 파일을 컨테이너에 복사
+# 호스트 폴더: 복사할 파일이 있는 위치(cd로 이동)
+# 호스트 파일: index.html
+docker cp index.html apa000ex19:/usr/local/apache2/htdocs
+
+# 웹브라우저
+http://localhost:8089
+http://localhost:8089/index.html
+
+# 컨테이너에서 호스트로 파일을 복사
+docker cp apa000ex19:/usr/local/apache2/htdocs/index.html .
+
+# SHELL 모드로 진입
+docker exec -it apa000ex19 /bin/bash
+
+# 폴더 이동
+/usr/local/apache2/htdocs
+
+# hello.html
+echo "<h1>Hello world.</h1>" > hello.html
+
+# 웹브라우저
+http://localhost:8089/hello.html
+
+# 컨테이너에서 호스트로 파일을 복사
+docker cp apa000ex19:/usr/local/apache2/htdocs/hello.html .
+
+# 컨테이너 중지
+docker container stop apa000ex19
+
+# 컨테이너 삭제
+docker container stop apa000ex19
+
+# 컨테이너 확인: 삭제된 컨테이너가 보이지 않음
+docker container ls -a
