@@ -1,0 +1,32 @@
+[NGINX 웹 서버]
+
+# 이미지 검색
+docker search --filter=is-official=true nginx
+
+# 이미지 다운로드
+docker pull nginx
+docker image pull nginx
+
+# 이미지 확인
+docker image ls
+
+# 이미지 다운로드 및 실행
+docker run --name nginx001 -d -p 8080:80 nginx
+
+# 이미지 확인
+docker images
+
+# 컨테이너 확인
+docker ps -a
+docker container ls -a
+
+# 컨테이너 종료
+docker container stop nginx001
+
+# 컨테이너 삭제
+docker container rm nginx001
+
+
+
+
+

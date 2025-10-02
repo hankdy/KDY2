@@ -1,0 +1,7 @@
+156
+file-list.txt
+myshell.sh
+pattern1.txt
+patternx.txt
+regexpr-01.sh
+var-example-01c.sh

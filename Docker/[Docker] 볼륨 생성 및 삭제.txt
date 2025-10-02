@@ -1,0 +1,16 @@
+[도커 볼륨]
+
+# 볼륨 생성
+docker volume create vol-001
+
+# 볼륨 목록
+docker volume ls
+
+# 볼륨 상세 정보
+docker volume inspect vol-001
+
+# 볼륨 삭제
+docker volume rm vol-001
+
+# 볼륨 일괄 삭제(사용되지 않는 볼륨)
+docker volume prune

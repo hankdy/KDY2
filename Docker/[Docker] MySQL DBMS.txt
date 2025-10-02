@@ -1,0 +1,86 @@
+[MySQL DBMS]
+
+# 이미지 검색
+docker search --filter=is-official=true mysql
+
+# 이미지 다운로드
+docker image pull mysql
+
+# 이미지 확인
+docker image ls
+
+# 이미지 다운로드 및 실행
+docker run --name mysql001 -dit -e MYSQL_ROOT_PASSWORD=mysqlpass mysql
+
+# 이미지 확인
+docker images
+
+# 컨테이너 확인
+docker ps -a
+docker container ls -a
+
+# MySQL 셸 모드로 들어감
+docker exec -it mysql001 /bin/bash
+
+# mysql DBMS 접속
+mysql -u root -p mysql  
+Enter password: mysqlpass
+
+mysql> show databases;
+
+# 데이터베이스 생성
+mysql> create database soldb;
+
+# 데이터베이스 사용
+mysql> use soldb;
+
+# 테이블 생성
+create table hello (
+	id int,
+	name varchar(30)
+);
+
+# 테이블 목록
+mysql> show tables;
+
+# 테이블 구조 보기
+mysql> desc hello;
+
+# 테이블에 데이터 입력
+mysql> insert into hello values (12345, 'John');
+mysql> insert into hello values (20000, 'James');
+
+# 테이블에서 데이터 조회
+mysql> select * from hello;
+
+# mysql 빠져 나옴
+mysql> exit
+
+# mysql을 기동하고 있는 리눅스 셸 모드에서 빠져 나옴
+exit
+
+#####################################################
+# 다시 MySQL로 진입
+#####################################################
+# MySQL 셸 모드로 들어감
+docker exec -it mysql001 /bin/bash
+
+# mysql DBMS 접속
+mysql -u root -p mysql  
+Enter password: mysqlpass
+
+# 데이터베이스 사용
+mysql> use soldb;
+
+# 테이블에서 데이터 조회
+mysql> select * from hello;
+
+#####################################################
+# 컨테이너 종료
+docker container stop mysql001, mysql002
+ 
+# 컨테이너 삭제
+docker container rm mysql001, mysql002
+ 
+# 컨테이너 확인
+docker container ls -a

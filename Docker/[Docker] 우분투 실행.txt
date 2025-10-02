@@ -1,0 +1,74 @@
+
+# 도커 허브에서 이미지 검색
+docker search ubunru
+
+# 도커 허브에서 공식버전 검색
+docker search --filter=is-official=true ubuntu
+
+#######################################################
+# 도커 이미지 다운로드
+docker image pull ubuntu         # 디폴트 최신 버전
+docker image pull ubuntu:latest  # 명시적으로 최신 버전
+docker image pull ubuntu:24.04   # 버전 명시
+
+# 도커 로컬 이미지 확인
+docker images
+docker image ls
+
+# 도커 로컬 이미지 삭제
+docker image rm ubuntu       # 디폴트 최신버전
+docker image rm ubuntu:24.04 # 버전이 있는 경우 버전을 명시
+
+#######################################################
+# 우분투 컨테이너 실행하고 셸모드 진입
+# run : pull, create, start
+# -i : interactive, stdin 대화 모드
+# -t : tty, 가상 터미널
+docker run -it ubuntu:24.04 /bin/bash
+
+# 우분투 셸(bash)에서 로그아웃
+exit
+
+# 컨테이너 재실행
+docker container start CONTAINER-ID
+
+# 컨테이너 대화형 모드로 진입
+docker exec -it CONTAINER-ID /bin/bash
+
+# 도커에서 컨테이너 실행 상태 확인
+docker ps -a           # 이전 명령어
+docker container ls -a # 재편 명령어
+
+# 도커 컨테이너 삭제
+docker rm CONTAINER-ID
+cocker container rm CONTAINER-ID
+
+#######################################################
+# 도커 컨테이너 생성
+docker container create ubuntu:24.04
+
+# 컨테이너 상태 확인
+# NAME: CONTAINER-ID
+# STATUS: Created
+docker container ls -a
+
+# 컨테이너 실행
+# STATUS: Exited
+docker container start CONTAINER-ID
+
+# 컨테이너 대화형 모드로 진입 : 우분투는 진입 불가
+docker exec -it CONTAINER-ID /bin/bash
+
+#######################################################
+# 컨테이너 종료
+docker container stop CONTAINER-ID
+
+# 컨테이너 삭제
+docker container rm CONTAINER-ID
+
+
+
+
+
+
+

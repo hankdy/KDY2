@@ -1,0 +1,61 @@
+[도커 마이에스큐엘 볼륨 연결]
+
+docker volume create mysql-data-vol
+
+docker volume ls
+
+docker pull mysql:latest
+
+docker container run -it --name=mysql01 \
+	-e MYSQL_ROOT_PASSWORD=solpass \
+	-e MYSQL_DATABASE=soldb \
+	-v mysql-data-vol:/var/lib/mysql \
+	-p 3306:3306 \
+	-d mysql:latest
+
+docker container ls -a
+
+# 셸 모드 진입
+docker exec -it mysql01 /bin/bash
+
+# mysql로 진입
+mysql -u root -p
+	
+show databases;
+use soldb;
+use tables;
+
+create table hello (id int, name varchar(30), age int);
+desc hello;
+
+# 컨터이너 종료 및 삭제
+docker container stop mysql01
+docker container rm mysql01
+
+########################################################
+# 기존 볼륨을 다시 연결해서 보전된 데이터를 재사용 가능
+########################################################
+docker container run -it --name=mysol \
+	-e MYSQL_ROOT_PASSWORD=solpass \
+	-e MYSQL_DATABASE=soldb \
+	-v mysql-data-vol:/var/lib/mysql \
+	-p 3306:3306 \
+	-d mysql:latest
+
+# 셸 모드 진입
+docker exec -it mysol /bin/bash
+
+# mysql로 진입
+mysql -u root -p    
+
+use soldb;
+    
+########################################################
+# 볼륨 삭제 순서
+
+# 컨터이너 종료 및 삭제
+docker container stop mysol
+docker container rm mysol
+
+# 볼률 삭제
+docker volume rm mysql-data-vol

@@ -1,0 +1,39 @@
+[아파치 웹 서버]
+
+# 이미지 검색
+docker search --filter=is-official=true httpd
+
+# 이미지 다운로드 및 실행
+docker run --name apa000ex1 -d httpd
+
+# 이미지 확인
+docker images
+
+# 컨테이너 확인
+docker ps -a
+docker container ls -a
+
+# 컨테이너 종료
+docker container stop apa000ex1
+
+# 컨테이너 삭제
+docker container rm apa000ex1
+
+############################################
+# 컨테이너와 통신
+# 백그라운드 실행 : -d
+# 포트지정: -p 호스트포트:내부포트
+docker container run --name apa000ex2 -d -p 8080:80 httpd
+docker container run --name apa000ex3 -d -p 8081:80 httpd
+
+# 컨테이너 종료
+docker container stop apa000ex3 apa000ex2
+
+# 컨테이너 삭제
+docker container rm apa000ex3 apa000ex2
+
+
+
+
+
+
